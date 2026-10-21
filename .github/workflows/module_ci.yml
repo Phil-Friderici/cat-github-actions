@@ -77,6 +77,22 @@ jobs:
             echo "BUNDLE_RUBYGEMS___PUPPETCORE__PUPPET__COM=forge-key:$FORGE_TOKEN" >> $GITHUB_ENV
           fi
 
+      - name: "Debug Forge Token"
+        env:
+          FORGE_TOKEN: ${{ secrets.PUPPET_FORGE_TOKEN || secrets.PUPPET_FORGE_TOKEN_PUBLIC }}
+        run: |
+          if [ -n "$FORGE_TOKEN" ]; then
+            echo "FORGE_TOKEN_PRESENT=yes"
+            echo "FORGE_TOKEN_LENGTH=${#FORGE_TOKEN}"
+          else
+            echo "FORGE_TOKEN_PRESENT=no"
+          fi
+
+      - name: Debug Context
+        run: |
+          echo "REPOSITORY=${{ github.repository }}"
+          echo "WORKFLOW_REF=${{ github.workflow_ref }}"
+
       - name: "Setup ruby"
         uses: "ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f"  # v1.310.0
         with:
